@@ -1,0 +1,124 @@
+list_tarefas = []
+dict_prioridade = {
+    "alto": [],
+    "medio": [],
+    "baixo": []
+}
+
+# MENU DE INTERAÇÃO COM O USUÁRIO
+
+
+def menu():
+    while True:
+        print("\n<< GERENCIADOR DE TAREFAS DIÁRIAS >>")
+        print("(1) - Adicionar tarefas")
+        print("(2) - Definir status de tarefa")
+        print("(3) - Definir ou visualizar tarefas por prioridade")
+        print("(4) - Listar tarefas")
+        print("(5) - Sair")
+
+        usuario = int(input("Seja bem-vindo(a), o que deseja?: "))
+
+        if usuario == 1:
+            adicionar_tarefas()
+        elif usuario == 2:
+            status()
+        elif usuario == 3:
+            definir_prioridade()
+        elif usuario == 4:
+            listar()
+        elif usuario == 5:
+            print("GERENCIADOR OFF.")
+            break
+        else:
+            print("Opção inválida, tente novamente.")
+
+# FUNÇÃO PARA ADICIONAR TAREFAS
+
+
+def adicionar_tarefas():
+    nome = input("\nNome da tarefa: ")
+    descricao = input("\nDescrição da tarefa: ")
+    prioridade = input("\nPrioridade (ALTA // MEDIA // BAIXA): ").lower()
+    categoria = input("\nCategoria: ")
+
+    tarefas = {
+        "nome": nome,
+        "descrição": descricao,
+        "prioridade": prioridade,
+        "categoria": categoria,
+        "concluida": False
+    }
+
+    list_tarefas.append(tarefas)
+    print(f"Tarefa '{nome}' adicionada com sucesso!")
+
+# FUNÇÃO PARA DEFINIR STATUS DA TAREFA
+
+
+def status():
+    pesquisar = input("Pesquisar tarefa: ").lower()
+    for tarefas in list_tarefas:
+        if tarefas["nome"].lower() == pesquisar:
+            print(f"A tarefa '{pesquisar}' foi encontrada no banco de dados!")
+            var_status = input("Deseja finalizar a tarefa? (S/N): ").lower()
+            if var_status == "s":
+                tarefas["concluida"] = True
+                print(f"A tarefa '{tarefas['nome']
+                                   }' foi concluída com sucesso!")
+            else:
+                print(f"A tarefa '{tarefas['nome']}' está pendente!")
+            return
+    print(f"A tarefa '{pesquisar}' não foi encontrada no banco de dados.")
+
+# FUNÇÃO PARA DEFINIR OU VISUALIZAR PRIORIDADE
+
+
+def definir_prioridade():
+    pesquisar = input("Pesquisar tarefa: ").lower()
+
+    for tarefas in list_tarefas:
+        if tarefas["nome"].lower() == pesquisar:
+            print(f"A tarefa '{pesquisar}' foi encontrada no banco de dados!")
+            var_prioridade = input(
+                "Defina o nível de prioridade da tarefa (ALTO // MEDIO // BAIXO) ou digite 'V' para visualizar todas: ").lower()
+
+            if var_prioridade == "alto":
+                dict_prioridade["alto"].append(tarefas)
+                print(f"A tarefa '{
+                      tarefas['nome']}' foi marcada como de prioridade ALTA.")
+            elif var_prioridade == "medio":
+                dict_prioridade["medio"].append(tarefas)
+                print(f"A tarefa '{
+                      tarefas['nome']}' foi marcada como de prioridade MEDIA.")
+            elif var_prioridade == "baixo":
+                dict_prioridade["baixo"].append(tarefas)
+                print(f"A tarefa '{
+                      tarefas['nome']}' foi marcada como de prioridade BAIXA.")
+            elif var_prioridade == "v":
+                print("\nTarefas por Prioridade:")
+                for prioridade, tarefas in dict_prioridade.items():
+                    print(f"\nPrioridade {prioridade.upper()}:")
+                    for t in tarefas:
+                        print(f"  - {t['nome']}")
+            return
+    print(f"A tarefa '{pesquisar}' não foi encontrada no banco de dados.")
+
+# LISTAR TAREFAS
+
+
+def listar():
+    if not list_tarefas:
+        print("\nNenhuma tarefa encontrada.")
+    else:
+        print("\nTarefas:")
+        for tarefas in list_tarefas:
+            print(f"\nNome: {tarefas['nome']}")
+            print(f"Descrição: {tarefas['descrição']}")
+            print(f"Prioridade: {tarefas['prioridade']}")
+            print(f"Categoria: {tarefas['categoria']}")
+            print(f"Concluída: {'Sim' if tarefas['concluida'] else 'Não'}")
+
+
+# Executa o menu
+menu()
